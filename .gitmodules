@@ -1,3 +1,6 @@
 [submodule "gcs-downloader"]
 	path = gcs-downloader
 	url = https://github.com/sudheer-akkio/gcs-downloader.git
+[submodule "data-warehouse-sdk"]
+	path = data-warehouse-sdk
+	url = https://github.com/sudheer-akkio/data-warehouse-sdk.git
