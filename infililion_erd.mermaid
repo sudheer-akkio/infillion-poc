@@ -1,0 +1,258 @@
+erDiagram
+    ORGANIZATION ||--o{ AGENCY : manages
+    ORGANIZATION ||--o{ ADVERTISER : owns
+    ORGANIZATION ||--o{ CAMPAIGN : contains
+    
+    AGENCY ||--o{ ADVERTISER : serves
+    AGENCY ||--o{ CAMPAIGN : manages
+    
+    ADVERTISER ||--o{ CAMPAIGN : runs
+    
+    CAMPAIGN ||--o{ STRATEGY : contains
+    CAMPAIGN ||--o{ CREATIVE : uses
+    
+    STRATEGY ||--o{ CREATIVE : delivers
+    
+    EXCHANGE ||--o{ ALL_DIMENSIONS_METRICS : supplies
+    PUBLISHER ||--o{ ALL_DIMENSIONS_METRICS : provides
+    
+    ORGANIZATION ||--o{ ALL_DIMENSIONS_METRICS : tracks
+    AGENCY ||--o{ ALL_DIMENSIONS_METRICS : reports
+    ADVERTISER ||--o{ ALL_DIMENSIONS_METRICS : measures
+    CAMPAIGN ||--o{ ALL_DIMENSIONS_METRICS : aggregates
+    STRATEGY ||--o{ ALL_DIMENSIONS_METRICS : records
+    CREATIVE ||--o{ ALL_DIMENSIONS_METRICS : attributes
+    
+    ORGANIZATION ||--o{ PERFORMANCE : tracks
+    AGENCY ||--o{ PERFORMANCE : reports
+    ADVERTISER ||--o{ PERFORMANCE : measures
+    CAMPAIGN ||--o{ PERFORMANCE : aggregates
+    STRATEGY ||--o{ PERFORMANCE : records
+    CREATIVE ||--o{ PERFORMANCE : attributes
+    
+    ORGANIZATION ||--o{ DAY_PART : tracks
+    AGENCY ||--o{ DAY_PART : reports
+    ADVERTISER ||--o{ DAY_PART : measures
+    CAMPAIGN ||--o{ DAY_PART : aggregates
+    STRATEGY ||--o{ DAY_PART : records
+    EXCHANGE ||--o{ DAY_PART : supplies
+    
+    ORGANIZATION ||--o{ AUDIENCES : tracks
+    AGENCY ||--o{ AUDIENCES : reports
+    ADVERTISER ||--o{ AUDIENCES : measures
+    CAMPAIGN ||--o{ AUDIENCES : aggregates
+    STRATEGY ||--o{ AUDIENCES : records
+    VENDOR ||--o{ AUDIENCES : provides
+    SEGMENT ||--o{ AUDIENCES : targets
+    
+    ORGANIZATION ||--o{ ARRIVAL_STANDARD : tracks
+    AGENCY ||--o{ ARRIVAL_STANDARD : reports
+    ADVERTISER ||--o{ ARRIVAL_STANDARD : measures
+    CAMPAIGN ||--o{ ARRIVAL_STANDARD : aggregates
+    STRATEGY ||--o{ ARRIVAL_STANDARD : records
+    CREATIVE ||--o{ ARRIVAL_STANDARD : attributes
+    POI ||--o{ ARRIVAL_STANDARD : receives
+    
+    ORGANIZATION ||--o{ ARRIVAL_DISTANCE_TIME : tracks
+    AGENCY ||--o{ ARRIVAL_DISTANCE_TIME : reports
+    ADVERTISER ||--o{ ARRIVAL_DISTANCE_TIME : measures
+    CAMPAIGN ||--o{ ARRIVAL_DISTANCE_TIME : aggregates
+    STRATEGY ||--o{ ARRIVAL_DISTANCE_TIME : records
+    CREATIVE ||--o{ ARRIVAL_DISTANCE_TIME : attributes
+    
+    ORGANIZATION ||--o{ ARRIVAL_INFLUENCE_GEO : tracks
+    AGENCY ||--o{ ARRIVAL_INFLUENCE_GEO : reports
+    ADVERTISER ||--o{ ARRIVAL_INFLUENCE_GEO : measures
+    CAMPAIGN ||--o{ ARRIVAL_INFLUENCE_GEO : aggregates
+    STRATEGY ||--o{ ARRIVAL_INFLUENCE_GEO : records
+    CREATIVE ||--o{ ARRIVAL_INFLUENCE_GEO : attributes
+    
+    ORGANIZATION ||--o{ ARRIVAL_INFLUENCE_PLACEMENT : tracks
+    AGENCY ||--o{ ARRIVAL_INFLUENCE_PLACEMENT : reports
+    ADVERTISER ||--o{ ARRIVAL_INFLUENCE_PLACEMENT : measures
+    CAMPAIGN ||--o{ ARRIVAL_INFLUENCE_PLACEMENT : aggregates
+    STRATEGY ||--o{ ARRIVAL_INFLUENCE_PLACEMENT : records
+    CREATIVE ||--o{ ARRIVAL_INFLUENCE_PLACEMENT : attributes
+    
+    ORGANIZATION {
+        integer organization_id PK
+        string organization_name
+    }
+    
+    AGENCY {
+        integer agency_id PK
+        string agency_name
+        integer organization_id FK
+    }
+    
+    ADVERTISER {
+        integer advertiser_id PK
+        string advertiser_name
+        integer organization_id FK
+        integer agency_id FK
+    }
+    
+    CAMPAIGN {
+        integer campaign_id PK
+        string campaign_name
+        integer advertiser_id FK
+        integer agency_id FK
+        integer organization_id FK
+        string start_date
+        string end_date
+        boolean status
+    }
+    
+    STRATEGY {
+        integer strategy_id PK
+        string strategy_name
+        integer campaign_id FK
+        string media_type
+        string goal_type
+        float goal_value
+    }
+    
+    CREATIVE {
+        integer creative_id PK
+        string creative_name
+        string creative_size
+        integer campaign_id FK
+    }
+    
+    EXCHANGE {
+        integer exchange_id PK
+        string exchange_name
+    }
+    
+    PUBLISHER {
+        string publisher_id PK
+        string publisher_name
+    }
+    
+    VENDOR {
+        integer vendor_id PK
+        string vendor_name
+        string parent_vendor_name
+    }
+    
+    SEGMENT {
+        integer segment_id PK
+        string segment_name
+    }
+    
+    POI {
+        string poi_name PK
+        string poi_address
+    }
+    
+    ALL_DIMENSIONS_METRICS {
+        string agg_timestamp
+        integer organization_id FK
+        integer agency_id FK
+        integer advertiser_id FK
+        integer campaign_id FK
+        integer strategy_id FK
+        string creative_id FK
+        string exchange_id FK
+        string publisher_id FK
+        integer impressions
+        integer clicks
+        float ctr
+        integer total_conversions
+        float total_revenue
+    }
+    
+    PERFORMANCE {
+        string agg_timestamp
+        integer organization_id FK
+        integer agency_id FK
+        integer advertiser_id FK
+        integer campaign_id FK
+        integer strategy_id FK
+        integer creative_id FK
+        integer impressions
+        integer clicks
+        float ctr
+        integer total_conversions
+        float total_revenue
+    }
+    
+    DAY_PART {
+        string agg_timestamp
+        integer day_part_id
+        string day_part_name
+        integer week_day_id
+        string week_day_name
+        integer organization_id FK
+        integer agency_id FK
+        integer advertiser_id FK
+        integer campaign_id FK
+        integer strategy_id FK
+        integer exchange_id FK
+        integer impressions
+        integer clicks
+    }
+    
+    AUDIENCES {
+        string mm_date
+        integer organization_id FK
+        integer agency_id FK
+        integer advertiser_id FK
+        integer campaign_id FK
+        integer strategy_id FK
+        integer vendor_id FK
+        integer segment_id FK
+        integer impressions
+        integer clicks
+        float total_spend_usd
+    }
+    
+    ARRIVAL_STANDARD {
+        string visit_date
+        integer organization_id FK
+        integer agency_id FK
+        integer advertiser_id FK
+        integer campaign_id FK
+        integer strategy_id FK
+        integer creative_id FK
+        string poi_name FK
+        integer verified_visits
+        integer verified_unique_visits
+    }
+    
+    ARRIVAL_DISTANCE_TIME {
+        string visit_date
+        integer organization_id FK
+        integer agency_id FK
+        integer advertiser_id FK
+        integer campaign_id FK
+        integer strategy_id FK
+        integer creative_id FK
+        integer verified_visits
+        float avg_dwell_time_min
+    }
+    
+    ARRIVAL_INFLUENCE_GEO {
+        string visit_date
+        integer organization_id FK
+        integer agency_id FK
+        integer advertiser_id FK
+        integer campaign_id FK
+        integer strategy_id FK
+        integer creative_id FK
+        string influence_city
+        string influence_state
+        integer verified_visits
+    }
+    
+    ARRIVAL_INFLUENCE_PLACEMENT {
+        string visit_date
+        integer organization_id FK
+        integer agency_id FK
+        integer advertiser_id FK
+        integer campaign_id FK
+        integer strategy_id FK
+        integer creative_id FK
+        string influence_placement_name
+        integer verified_visits
+    }
